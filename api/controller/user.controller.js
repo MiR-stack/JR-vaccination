@@ -1,4 +1,8 @@
-const { createUser, updateUser } = require("../services/user.service");
+const {
+  createUser,
+  updateUser,
+  getUserByNid,
+} = require("../services/user.service");
 const { getVaccineCenter } = require("../services/vaccineCenter.service");
 const { createAppointment } = require("../services/appointment.service");
 
@@ -37,4 +41,20 @@ const register = async (req, res) => {
     .status(201);
 };
 
-module.exports = { register };
+const findUser = async (req, res) => {
+  try {
+    const { nid } = req.query;
+
+    if (!nid) return res.status(400).json({ msg: "nid is requred" });
+
+    const user = await getUserByNid(nid);
+
+    if (!user) return res.status(404).json({ msg: "user not found" });
+
+    res.send(user);
+  } catch {
+    res.status(500).json({ msg: "internal server error" });
+  }
+};
+
+module.exports = { register, findUser };

@@ -2,9 +2,7 @@ const User = require("../model/user.model");
 const error = require("../utils/error");
 
 const createUser = async ({ name, email, nid }) => {
-  const isExist = await User.findOne({
-    nid,
-  });
+  const isExist = await getUserByNid(nid);
 
   if (isExist) throw error("already registered", 403);
 
@@ -23,4 +21,13 @@ const updateUser = async ({ _id, payload }) => {
   await User.updateOne({ _id }, { status, appointment });
 };
 
-module.exports = { createUser, updateUser };
+/**
+ *
+ * @param {string} field
+ * @returns
+ */
+const getUserByNid = (nid) => {
+  return User.findOne({ nid });
+};
+
+module.exports = { createUser, updateUser, getUserByNid };
