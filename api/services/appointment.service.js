@@ -10,17 +10,17 @@ const createAppointment = async ({ vaccineCenterId, userId }) => {
   });
 
   let isFound = false;
-  let date = getNextDay(new Date(), true);
+  let date = vaccineCenter.availableDate;
   let serial = null;
 
   while (!isFound) {
     const currentDateAppointments = appointments.filter(
-      (appointment) => appointment.date.toISOString().split("T")[0] === date
+      (appointment) => `${appointment.date}` === `${date}`
     );
 
     const totalAppoinments = currentDateAppointments.length;
 
-    if (totalAppoinments === vaccineCenter.dailyLimit) {
+    if (totalAppoinments >= vaccineCenter.dailyLimit) {
       date = getNextDay(new Date(date), true);
     } else if (totalAppoinments < 1) {
       serial = 1;
@@ -29,6 +29,11 @@ const createAppointment = async ({ vaccineCenterId, userId }) => {
       serial = currentDateAppointments[totalAppoinments - 1].serial + 1;
       isFound = true;
     }
+  }
+
+  if (typeof date === "string") {
+    vaccineCenter.availableDate = date;
+    await vaccineCenter.save();
   }
 
   const appointment = new Appointment({
@@ -49,4 +54,17 @@ const getAppoinmentsByDate = async (date) => {
   return appointments;
 };
 
-module.exports = { createAppointment, getAppoinmentsByDate };
+const getAppointmentById = async (_id) => {
+  const appoinment = await Appointment.findOne({ _id }).populate(
+    "vaccineCenter",
+    "name location openTime"
+  );
+
+  return appoinment;
+};
+
+module.exports = {
+  createAppointment,
+  getAppoinmentsByDate,
+  getAppointmentById,
+};
