@@ -29,7 +29,9 @@ const getVaccineCenters = async ({ id, query, pageSize, page, fields }) => {
     $or: [{ name: regex }, { location: regex }],
   });
 
-  return { data: centers, meta: { page, pageSize, total } };
+  const totalPage = Math.ceil(total / pageSize);
+
+  return { data: centers, meta: { page, total, totalPage } };
 };
 
 module.exports = {
