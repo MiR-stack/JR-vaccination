@@ -44,7 +44,7 @@ npm install
    Create a `.env` file in the root directory with the following variables:
 
 ```env
-DB_STRING = "mongodb://127.0.0.1:27017/vaccination"
+DB_STRING = "your database string"
 
 API_KEY = "vaccination-api"
 
@@ -52,8 +52,6 @@ API_KEY = "vaccination-api"
 SMTP_USER= your email
 SMTP_PASS= your password
 
-# Server Configuration
-SERVER_PORT=3001
 ```
 
 4. Start the development server:
@@ -67,7 +65,7 @@ npm run dev
 ### Base URL
 
 ```
-http://localhost:3000/api/v1
+http://localhost:8080/api/v1
 ```
 
 ### User Endpoints
@@ -102,7 +100,7 @@ npm start         # Start production server
 ## 📁 Project Structure
 
 ```
-vaccination-backend/
+api/
 ├── controllers/       # Request handlers
 ├── middleware/        # Custom middleware
 ├── models/            # Database models
@@ -111,8 +109,6 @@ vaccination-backend/
 ├── templates/         # email templates
 ├── utils/             # Utility functions
 └── package.json
-```
-
 ```
 
 ## 🤝 Contributing
@@ -154,4 +150,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support, email your-habibmir811@gmail.com or open an issue in the GitHub repository.
+
+```
+
 ```
