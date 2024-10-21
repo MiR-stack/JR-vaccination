@@ -1,10 +1,11 @@
 {
-  "name": "api",
+  "name": "vaccination-system-backend",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "description": "Backend for vaccination registration system",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
