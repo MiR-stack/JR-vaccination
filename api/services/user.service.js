@@ -19,7 +19,16 @@ const createUser = async ({ name, email, nid }) => {
 const updateUser = async ({ _id, payload }) => {
   const { status, appointment } = payload;
 
-  await User.updateOne({ _id }, { status, appointment });
+  let updatedData = {};
+
+  if (status) {
+    updatedData.status = status;
+  }
+  if (appointment) {
+    updatedData.appointment = appointment;
+  }
+
+  await User.updateOne({ _id }, updatedData);
 };
 
 /**

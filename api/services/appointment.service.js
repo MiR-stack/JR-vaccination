@@ -1,6 +1,6 @@
 const Appointment = require("../model/appoinment.model");
 const { getVaccineCenter } = require("./vaccineCenter.service");
-const { getNextDay } = require("../utils");
+const { getNextDay, getAvailableDate } = require("../utils");
 
 const createAppointment = async ({ vaccineCenterId, userId }) => {
   const vaccineCenter = await getVaccineCenter(vaccineCenterId);
@@ -10,7 +10,7 @@ const createAppointment = async ({ vaccineCenterId, userId }) => {
   });
 
   let isFound = false;
-  let date = vaccineCenter.availableDate;
+  let date = getAvailableDate(vaccineCenter.availableDate);
   let serial = null;
 
   while (!isFound) {
@@ -21,7 +21,7 @@ const createAppointment = async ({ vaccineCenterId, userId }) => {
     const totalAppoinments = currentDateAppointments.length;
 
     if (totalAppoinments >= vaccineCenter.dailyLimit) {
-      date = getNextDay(new Date(date), true);
+      date = getNextDay(date, true);
     } else if (totalAppoinments < 1) {
       serial = 1;
       isFound = true;
@@ -47,7 +47,9 @@ const createAppointment = async ({ vaccineCenterId, userId }) => {
 };
 
 const getAppoinmentsByDate = async (date) => {
-  const appointments = await Appointment.find({ date })
+  const appointments = await Appointment.find({
+    date: date.toISOString().split("T")[0],
+  })
     .populate("user", "name email")
     .populate("vaccineCenter", "name location");
 

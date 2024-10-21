@@ -7,6 +7,8 @@ const appointmentRoute = require("./router/appointment.route");
 const auth = require("./middleware/auth.middleware");
 const vaccinceCenterRoute = require("./router/vaccinceCenter.route");
 const { globalErrorHandler } = require("./middleware/error.middlware");
+const AutomatedEmailService = require("./services/notification.service");
+const DailyUpdator = require("./services/dailyUpdate.service");
 
 app.use(
   cors(),
